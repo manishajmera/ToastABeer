@@ -1,7 +1,6 @@
 import React,{useState} from 'react'
 
-export default function FilterComponent() {
-    const [filterList, setFilterList] = useState([]);
+export default function FilterComponent({filterList,setFilterList}) {
       const [userFilter, setUserFilter] = useState("");
     const handleRemoveFilter = (e, userFilter) => {
         let userFilters= filterList;
