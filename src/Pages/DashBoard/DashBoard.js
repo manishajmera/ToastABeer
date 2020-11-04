@@ -8,6 +8,7 @@ export default function DashBoard() {
     const [query, setQuery] = useState("");
     const [paginationIndex,setPaginationIndex] = useState(1);
     const [numOfPages,setNumOfPages] = useState(1);
+    const [currentPageItems,setCurrentPageItems] = useState([]);
 
 
     useEffect(()=>{
@@ -31,6 +32,7 @@ export default function DashBoard() {
             }
         }
         setNumOfPages(Math.ceil(beerList.length/5));
+        setCurrentPageItems(beerList.slice(0,5));
         setBeerList(beerList);
     },[]);
 
@@ -53,13 +55,21 @@ export default function DashBoard() {
         });
         setBeerList([...sortedList]);
     }
-    console.log(numOfPages);
+
+    const fetchPageData = (e,i)=>{
+        console.log(i);
+        if(i-1==0){
+            setCurrentPageItems(beerList.slice(0,5));
+        }else{
+            setCurrentPageItems(beerList.slice((i-1)*5-1,i*5));
+        }
+    }
     return (
         <div>
             <FilterComponent filterList={filterList} setFilterList={setFilterList} />
             <input type="text" onChange={handleChange} value={query} placeholder="Enter Beer Name"/>
             <button onClick={handleClick}>SortBy LikeCount</button>
-            <ListComponent listItems={filterData.length>0 ? filterData : beerList} hideSocialSection={true} numOfPages={numOfPages}/>
+            <ListComponent listItems={filterData.length>0 ? filterData : currentPageItems} hideSocialSection={true} numOfPages={numOfPages} fetchPageData={fetchPageData}/>
             {query && <ListComponent listItems={filterData} hideSocialSection={true}/>}
         </div>
     )

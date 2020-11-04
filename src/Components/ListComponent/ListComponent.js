@@ -1,16 +1,21 @@
-import React,{useEffect} from 'react';
+import React from 'react';
 import BeerCard from '../BeerCard/BeerCard';
-import { connect  } from "react-redux";
 import "./ListComponent.css";
-import {
-    dispatchGetRandomBeer
-} from "../../Redux/Actions/Actions";
 
-export default function ListComponent({listItems,hideSocialSection}) {
+
+export default function ListComponent({listItems,hideSocialSection,numOfPages,fetchPageData}) {
+    const pageIndex = () => {
+        let h = [];
+        for(let i=0;i<numOfPages;i++) h.push(
+        <span onClick={(e) =>  fetchPageData(e,i+1)}>{i+1}</span>
+        )
+        return h;
+    }
     
     return (
         <div className="container">
             {listItems && listItems.map((item,index)=><BeerCard {...item} key={`${item.id}-${index}`} hideSocialSection={hideSocialSection}/>)}
+            {numOfPages && pageIndex()}
             {/* <BeerCard {...item.fields } key={item.sys.id} sys={item.sys}  /> */}
        </div>
     )
