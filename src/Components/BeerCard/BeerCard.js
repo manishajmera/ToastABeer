@@ -18,17 +18,26 @@ export default function BeerCard(props) {
       ? JSON.parse(localStorage.getItem("beerLikeList"))
       : [];
     let flag = false;
+    if(localStorageDataOfLikes){
+      for(let i in localStorageDataOfLikes){
+        if(localStorageDataOfLikes[i].id===id){
+          localStorageDataOfLikes[i].likeCount++;
+          flag=true;
+          break;
+        }
+      }
+  }
     if (!flag) {
       localStorageDataOfLikes.push({
         id: id,
         likeCount: state.likeCount,
         comments: state.comment,
       });
-      localStorage.setItem(
-        "beerLikeList",
-        JSON.stringify(localStorageDataOfLikes)
-      );
     }
+    localStorage.setItem(
+      "beerLikeList",
+      JSON.stringify(localStorageDataOfLikes)
+    );
     setState({...state,likeCount:++state.likeCount});
   };
   const handleOnKeyPress = (e) => {
@@ -62,11 +71,16 @@ export default function BeerCard(props) {
        
         <div className="container">
         <ComplementFood complementFood={props.food_pairing}/>
+        {!props.hideSocialSection ? <>
           <div className="col col-sm-12">
-          <i className="fa fa-thumbs-up" aria-hidden="true" onClick={(e) => handleClick(e, props.id)}></i> {state.likeCount}
+            <i className="fa fa-thumbs-up" aria-hidden="true" onClick={(e) => handleClick(e, props.id)}></i> {state.likeCount}
             </div>
             <CommentBox comment={state.comment} commentText={state.commentText} setCommentText={setCommentText} handleOnKeyPress={handleOnKeyPress}/>
-              {/* <span>Likes:{`${props.likeCount ? props.likeCount : 0}`}</span> */}
+            </> :
+               <div className="col col-sm-12">
+                Like Count:- {props.likeCount}
+               </div>
+}
           </div>
         </div>
         </>

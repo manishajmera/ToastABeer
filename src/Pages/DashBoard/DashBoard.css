@@ -1,3 +1,14 @@
 .margin-bottom {
     margin-bottom: 20px;
 }
+.page-index{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.page-index .active {
+    border: 1px solid orange;
+    margin-right: 10px;
+    margin-left: 10px;
+    background: orange;
+    cursor: pointer;
+}

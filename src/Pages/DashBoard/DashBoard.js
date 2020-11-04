@@ -7,7 +7,7 @@ export default function DashBoard() {
     const [filterList, setFilterList] = useState([]);
     const [filterData, setfilterData] = useState([]);
     const [query, setQuery] = useState("");
-    // const [paginationIndex,setPaginationIndex] = useState(1);
+    const [paginationIndex,setPaginationIndex] = useState(1);
     const [numOfPages,setNumOfPages] = useState(1);
     const [currentPageItems,setCurrentPageItems] = useState([]);
     const [changeView,setChangeView] = useState("listView");
@@ -24,8 +24,8 @@ export default function DashBoard() {
         let likedList = JSON.parse(localStorage.getItem("beerLikeList"));
         let beerList = JSON.parse(localStorage.getItem("beerList"));
         for(let j in beerList){
-            beerList[j].likeCount = 0;
-        }
+                beerList[j].likeCount = 0;   
+            }
         for(let i in likedList){
             for(let j in beerList){
                 if(likedList[i].id === beerList[j].id){
@@ -40,10 +40,10 @@ export default function DashBoard() {
     },[]);
 
     const handleChange = (e) => {
-        let searchedQuery = e.target.value;
+        let searchedQuery = e.target.value.toUpperCase();
         let serchedItem=[];
         for(let i in beerList){
-            if(beerList[i]["name"].includes(searchedQuery)){
+            if(beerList[i]["name"].toUpperCase().includes(searchedQuery)){
                 serchedItem.push(beerList[i]);
             }
         }
@@ -56,15 +56,24 @@ export default function DashBoard() {
         sortedList.sort((a,b)=>{
             return a.likeCount<b.likeCount ? 1 : -1;
         });
-        setBeerList([...sortedList]);
+        setCurrentPageItems([...sortedList.slice(0,6)]);
     }
 
     const fetchPageData = (e,i)=>{
         if(i-1===0){
-            setCurrentPageItems(beerList.slice(0,6));
+            setCurrentPageItems([...beerList.slice(0,6)]);
         }else{
-            setCurrentPageItems(beerList.slice((i-1)*6-1,i*6));
+            setCurrentPageItems([...beerList.slice(((i-1)*6)-1,(i-1)*6+5)]);
         }
+        setPaginationIndex(i);
+    }
+    const pageIndex = () => {
+        let h = [];
+        console.log(paginationIndex);
+        for(let i=0;i<numOfPages;i++) h.push(
+            <span key={i} className={paginationIndex===i+1 ? "active" : ""} onClick={(e) =>  fetchPageData(e,i+1)}>{i+1}</span>
+        )
+        return h;
     }
     return (
         <div className="container">
@@ -74,10 +83,13 @@ export default function DashBoard() {
                 <div className="col col-sm-6"><input type="text" className="form-control" onChange={handleChange} value={query} placeholder="Enter Beer Name"/></div>
                 <div className="col col-sm-3"><button onClick={(e)=>{
                     if(changeView==="listView") setChangeView("gridView"); else setChangeView("listView"); 
-                }}>View Change</button></div>
+                }}>Change View</button></div>
             </div>
-            <ListComponent listItems={filterData.length>0 ? filterData : currentPageItems} hideSocialSection={true} numOfPages={numOfPages} fetchPageData={fetchPageData} view={changeView}/>
-            {query && <ListComponent listItems={filterData} hideSocialSection={true}/>}
+            {query ? <ListComponent listItems={filterData} hideSocialSection={true}/> : 
+                            <ListComponent listItems={filterData.length>0 ? filterData : currentPageItems} hideSocialSection={true} numOfPages={numOfPages} fetchPageData={fetchPageData} view={changeView}/>
+            }
+                        {numOfPages && <div className="page-index">{pageIndex()}</div>}
+                        
         </div>
     )
 }

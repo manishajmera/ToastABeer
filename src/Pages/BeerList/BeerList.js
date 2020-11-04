@@ -14,6 +14,7 @@ function BeerList({dispatchGetRandomBeer,beerList}) {
         const getRandomBeer = () => {
             dispatchGetRandomBeer()
         }
+        localStorage.removeItem("beerLikeList");
         let t = setInterval(getRandomBeer,5000);     
         return () => {
             clearInterval(t);
