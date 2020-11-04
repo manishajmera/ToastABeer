@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -6,14 +5,20 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import {ListComponent} from "./Components";
+import {BeerList,DashBoard,BeerDetail} from "./Pages";
 
 export default function App() {
   return (
     <Router>
         <Switch>
-          <Route path="/about">
-            <ListComponent />
+          <Route exact path="/:id">
+            <BeerDetail />
+          </Route>
+          <Route path="/dashboard">
+            <DashBoard />
+          </Route>
+          <Route path="/">
+            <BeerList />
           </Route>
         </Switch>
     </Router>

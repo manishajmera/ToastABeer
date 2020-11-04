@@ -13,6 +13,7 @@ export const setLoader = () => ({
 });
 
 export const dispatchGetRandomBeer = () => {
+  console.log(localStorage.getItem('beerList'));
   return function(dispatch, getState) {
     // dispatch(setLoader())
     axios.get('https://api.punkapi.com/v2/beers/random')
@@ -22,7 +23,8 @@ export const dispatchGetRandomBeer = () => {
       if(getState().beerList)
         data = [...getState().beerList,...response.data]
       else data = response.data;
-      console.log();
+      localStorage.removeItem("beerList");
+      localStorage.setItem('beerList', JSON.stringify(data));
       dispatch(setAllList(data))
       // console.log(response);
     })

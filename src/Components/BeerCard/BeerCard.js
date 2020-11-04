@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./BeerCard.css";
 
 export default function BeerCard(props) {
-    console.log(props);
     return (
         <div className="row card" key={props.id}>
             <div className="col col-sm-6 col-xs-12 no-float">
