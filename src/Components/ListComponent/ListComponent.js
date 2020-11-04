@@ -6,11 +6,11 @@ import {
     dispatchGetRandomBeer
 } from "../../Redux/Actions/Actions";
 
-export default function ListComponent({listItems}) {
+export default function ListComponent({listItems,hideSocialSection}) {
     
     return (
         <div className="container">
-            {listItems && listItems.map((item)=><BeerCard {...item} key={item.id}/>)}
+            {listItems && listItems.map((item,index)=><BeerCard {...item} key={`${item.id}-${index}`} hideSocialSection={hideSocialSection}/>)}
             {/* <BeerCard {...item.fields } key={item.sys.id} sys={item.sys}  /> */}
        </div>
     )

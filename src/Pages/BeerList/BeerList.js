@@ -7,8 +7,8 @@ import {
 } from "../../Redux/Actions/Actions";
 function BeerList({dispatchGetRandomBeer,beerList}) {
     let t;
-    let element = document.getElementById("timer");
-    if(element) element.scrollIntoViewIfNeeded();
+    // let element = document.getElementById("timer");
+    // if(element) element.scrollIntoViewIfNeeded();
     const getRandomBeer = () => {
         dispatchGetRandomBeer()
     }
