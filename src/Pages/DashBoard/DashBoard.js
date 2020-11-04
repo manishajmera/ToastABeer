@@ -6,7 +6,7 @@ export default function DashBoard() {
     const [filterList, setFilterList] = useState([]);
     const [filterData, setfilterData] = useState([]);
     const [query, setQuery] = useState("");
-    const [paginationIndex,setPaginationIndex] = useState(1);
+    // const [paginationIndex,setPaginationIndex] = useState(1);
     const [numOfPages,setNumOfPages] = useState(1);
     const [currentPageItems,setCurrentPageItems] = useState([]);
 
@@ -58,17 +58,20 @@ export default function DashBoard() {
 
     const fetchPageData = (e,i)=>{
         console.log(i);
-        if(i-1==0){
+        if(i-1===0){
             setCurrentPageItems(beerList.slice(0,5));
         }else{
             setCurrentPageItems(beerList.slice((i-1)*5-1,i*5));
         }
     }
     return (
-        <div>
-            <FilterComponent filterList={filterList} setFilterList={setFilterList} />
-            <input type="text" onChange={handleChange} value={query} placeholder="Enter Beer Name"/>
-            <button onClick={handleClick}>SortBy LikeCount</button>
+        <div className="container">
+                <FilterComponent filterList={filterList} setFilterList={setFilterList} />
+                <div className="row">
+                <div className="col col-sm-3"><button onClick={handleClick}>SortBy LikeCount</button></div>
+                <div className="col col-sm-6"><input type="text" className="form-control" onChange={handleChange} value={query} placeholder="Enter Beer Name"/></div>
+                <div className="col col-sm-3"><button onClick={handleClick}>View Change</button></div>
+            </div>
             <ListComponent listItems={filterData.length>0 ? filterData : currentPageItems} hideSocialSection={true} numOfPages={numOfPages} fetchPageData={fetchPageData}/>
             {query && <ListComponent listItems={filterData} hideSocialSection={true}/>}
         </div>

@@ -1,0 +1,11 @@
+.sticky-dashboard {
+    position: fixed;
+    top: 20px;
+    font-weight: 500;
+    font-size: 20px;
+    right: 20px;
+    z-index: 2;
+}
+.sticky-dashboard a {
+    color: orange;
+}

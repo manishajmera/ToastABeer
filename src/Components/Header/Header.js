@@ -1,8 +1,7 @@
 import React from 'react';
-import {Link } from 'react-router-dom';
 
-export default function Header() {
+export default function Header({text}) {
     return (
-        <Link to='/dashboard'></Link>
+    <h1 className="center">{text}</h1>
     )
 }

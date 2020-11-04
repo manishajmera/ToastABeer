@@ -2,31 +2,31 @@ import React , {useEffect} from 'react'
 import {ListComponent} from "../../Components";
 import { connect  } from "react-redux";
 import { Link } from "react-router-dom";
+import "./BeerList.css";
 import {
     dispatchGetRandomBeer
 } from "../../Redux/Actions/Actions";
 function BeerList({dispatchGetRandomBeer,beerList}) {
-    let t;
     // let element = document.getElementById("timer");
     // if(element) element.scrollIntoViewIfNeeded();
-    const getRandomBeer = () => {
-        dispatchGetRandomBeer()
-    }
+    
     useEffect(() => {
-        t = setInterval(getRandomBeer,5000);
-        
+        const getRandomBeer = () => {
+            dispatchGetRandomBeer()
+        }
+        let t = setInterval(getRandomBeer,5000);     
         return () => {
             clearInterval(t);
         }
-    }, [getRandomBeer])
+    }, [dispatchGetRandomBeer])
     return (
         <>
-        <Link to='/dashboard'>Dashboard</Link>
+        <div className="sticky-dashboard">
+            <Link to='/dashboard'>Dashboard >></Link>
+        </div>
         <ListComponent listItems={beerList}/>
-        <div id="timer">Timer             
-
-            ---------
-            Timer
+        <div id="timer">Fetching some freshly brewed beer
+            ------------->
         </div>
         </>
     )

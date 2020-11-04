@@ -56,7 +56,7 @@ export const dispatchGetBeerDetails = (id) => {
   return function(dispatch, getState) {
     axios.get(`https://api.punkapi.com/v2/beers/${id}`)
     .then((response)=> {
-      dispatch(setBeerData(response.data))
+      dispatch(setBeerData(response.data[0]))
     })
     .catch( (error)=> {
       // handle error

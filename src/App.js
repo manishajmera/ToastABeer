@@ -3,13 +3,14 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import {BeerList,DashBoard,BeerDetail} from "./Pages";
+import {Layout} from "./Components";
 
 export default function App() {
   return (
     <Router>
+        <Layout>
         <Switch>
         <Route exact path="/dashboard">
             <DashBoard />
@@ -21,6 +22,7 @@ export default function App() {
             <BeerList />
           </Route>
         </Switch>
+        </Layout>
     </Router>
   );
 }
