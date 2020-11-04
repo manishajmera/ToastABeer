@@ -1,5 +1,6 @@
 import React,{useEffect,useState} from 'react';
 import {ListComponent,FilterComponent} from "../../Components";
+import "./DashBoard.css";
 
 export default function DashBoard() {
     const [beerList,setBeerList] = useState(null);
@@ -9,6 +10,8 @@ export default function DashBoard() {
     // const [paginationIndex,setPaginationIndex] = useState(1);
     const [numOfPages,setNumOfPages] = useState(1);
     const [currentPageItems,setCurrentPageItems] = useState([]);
+    const [changeView,setChangeView] = useState("listView");
+
 
 
     useEffect(()=>{
@@ -31,8 +34,8 @@ export default function DashBoard() {
                 }
             }
         }
-        setNumOfPages(Math.ceil(beerList.length/5));
-        setCurrentPageItems(beerList.slice(0,5));
+        setNumOfPages(Math.ceil(beerList.length/6));
+        setCurrentPageItems(beerList.slice(0,6));
         setBeerList(beerList);
     },[]);
 
@@ -57,22 +60,23 @@ export default function DashBoard() {
     }
 
     const fetchPageData = (e,i)=>{
-        console.log(i);
         if(i-1===0){
-            setCurrentPageItems(beerList.slice(0,5));
+            setCurrentPageItems(beerList.slice(0,6));
         }else{
-            setCurrentPageItems(beerList.slice((i-1)*5-1,i*5));
+            setCurrentPageItems(beerList.slice((i-1)*6-1,i*6));
         }
     }
     return (
         <div className="container">
                 <FilterComponent filterList={filterList} setFilterList={setFilterList} />
-                <div className="row">
+                <div className="row margin-bottom">
                 <div className="col col-sm-3"><button onClick={handleClick}>SortBy LikeCount</button></div>
                 <div className="col col-sm-6"><input type="text" className="form-control" onChange={handleChange} value={query} placeholder="Enter Beer Name"/></div>
-                <div className="col col-sm-3"><button onClick={handleClick}>View Change</button></div>
+                <div className="col col-sm-3"><button onClick={(e)=>{
+                    if(changeView==="listView") setChangeView("gridView"); else setChangeView("listView"); 
+                }}>View Change</button></div>
             </div>
-            <ListComponent listItems={filterData.length>0 ? filterData : currentPageItems} hideSocialSection={true} numOfPages={numOfPages} fetchPageData={fetchPageData}/>
+            <ListComponent listItems={filterData.length>0 ? filterData : currentPageItems} hideSocialSection={true} numOfPages={numOfPages} fetchPageData={fetchPageData} view={changeView}/>
             {query && <ListComponent listItems={filterData} hideSocialSection={true}/>}
         </div>
     )

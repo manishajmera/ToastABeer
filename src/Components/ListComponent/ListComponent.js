@@ -2,8 +2,7 @@ import React from 'react';
 import BeerCard from '../BeerCard/BeerCard';
 import "./ListComponent.css";
 
-
-export default function ListComponent({listItems,hideSocialSection,numOfPages,fetchPageData,view="listView",gridindex="4"}) {
+export default function ListComponent({listItems,hideSocialSection,numOfPages,fetchPageData,view="listView",gridindex="3"}) {
     const pageIndex = () => {
         let h = [];
         for(let i=0;i<numOfPages;i++) h.push(
@@ -15,15 +14,14 @@ export default function ListComponent({listItems,hideSocialSection,numOfPages,fe
     const gridView = () => {
         let h = [];
         if(listItems){
-            for(let i=0;i<listItems.length;i+gridindex){
-                for(let j=i;j<=i;j++){
-                    h.push(<div className="row" key={`${listItems[i].id}-${i}`}>
-                         <BeerCard {...listItems[i]}  hideSocialSection={hideSocialSection} gridCls={`col col-sm-${gridindex}`}/>
+            for(let i=0;i<listItems.length;i+=gridindex){
+                let newArray = listItems.slice(i,i+gridindex)
+                    h.push(<div className="row" key={`${i}`}>
+                         { newArray && newArray.map((item,index)=><BeerCard {...item} key={`${item.id}-${index}`}  hideSocialSection={hideSocialSection} gridCls={`col col-sm-${gridindex}`}/>)}
                     </div>)
-                }
-             }
+            }
         }
-        
+        console.log(h)
         return h;
     }
     
