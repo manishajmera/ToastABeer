@@ -7,17 +7,27 @@ import {
 } from "../../Redux/Actions/Actions";
 function BeerList({dispatchGetRandomBeer,beerList}) {
     let t;
+    let element = document.getElementById("timer");
+    if(element) element.scrollIntoViewIfNeeded();
+    const getRandomBeer = () => {
+        dispatchGetRandomBeer()
+    }
     useEffect(() => {
-        t = setInterval(dispatchGetRandomBeer,5000);
+        t = setInterval(getRandomBeer,5000);
         
         return () => {
             clearInterval(t);
         }
-    }, [dispatchGetRandomBeer])
+    }, [getRandomBeer])
     return (
         <>
         <Link to='/dashboard'>Dashboard</Link>
         <ListComponent listItems={beerList}/>
+        <div id="timer">Timer             
+
+            ---------
+            Timer
+        </div>
         </>
     )
 }

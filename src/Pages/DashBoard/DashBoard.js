@@ -1,8 +1,14 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react';
+import {ListComponent} from "../../Components";
+
 export default function DashBoard() {
+    const [beerList,setBeerList] = useState(null);
+    useEffect(()=>{
+        setBeerList(JSON.parse(localStorage.getItem("beerList")))
+    },[])
     return (
         <div>
-            herrrr
+            <ListComponent listItems={beerList} />
         </div>
     )
 }

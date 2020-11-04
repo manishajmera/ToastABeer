@@ -6,6 +6,10 @@ const Reducers = (state = {loader:false}, action) => {
       return Object.assign({}, state, {
         beerList: action.beerList
       });
+      case types.BeerDetail:
+        return Object.assign({}, state, {
+          beerData: action.beerData
+        });
     default:
       return state;
   }

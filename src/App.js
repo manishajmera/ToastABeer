@@ -11,11 +11,11 @@ export default function App() {
   return (
     <Router>
         <Switch>
+        <Route exact path="/dashboard">
+            <DashBoard />
+          </Route>
           <Route exact path="/:id">
             <BeerDetail />
-          </Route>
-          <Route path="/dashboard">
-            <DashBoard />
           </Route>
           <Route path="/">
             <BeerList />

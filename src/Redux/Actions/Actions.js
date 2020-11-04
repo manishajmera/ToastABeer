@@ -9,7 +9,10 @@ export const setAllList = (data) => ({
 });
 export const setLoader = () => ({
   type: types.LOADER,
-
+});
+export const setBeerData = (data) => ({
+  type: types.BeerDetail,
+  beerData:data
 });
 
 export const dispatchGetRandomBeer = () => {
@@ -27,6 +30,19 @@ export const dispatchGetRandomBeer = () => {
       localStorage.setItem('beerList', JSON.stringify(data));
       dispatch(setAllList(data))
       // console.log(response);
+    })
+    .catch( (error)=> {
+      // handle error
+      console.log(error);
+    })
+  };
+}
+export const dispatchGetBeerDetails = (id) => {
+  return function(dispatch, getState) {
+    // dispatch(setLoader())
+    axios.get(`https://api.punkapi.com/v2/beers/${id}`)
+    .then((response)=> {
+      dispatch(setBeerData(response.data))
     })
     .catch( (error)=> {
       // handle error
