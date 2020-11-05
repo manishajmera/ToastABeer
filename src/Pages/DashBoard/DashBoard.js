@@ -12,24 +12,9 @@ export default function DashBoard() {
     filterData: [],
     numOfPages: 1,
     foodFilterList: [],
+    withoutFilterFlag: true,
   });
 
-  useEffect(() => {
-    let data = [];
-    let traversalData =
-      state.filterData.length > 0 ? state.filterData : state.beerList;
-    if (state.foodFilterList && state.foodFilterList.length > 0) {
-      for (let i in state.foodFilterList) {
-        for (let j in traversalData) {
-          if (traversalData[j].food_pairing.includes(state.foodFilterList[i])) {
-            data.push(traversalData[j]);
-          }
-        }
-      }
-    }
-    console.log(data);
-    setState({ ...state, ...{ filterData: data } });
-  }, [state.foodFilterList]);
 
   useEffect(() => {
     let likedList = JSON.parse(localStorage.getItem("beerLikeList"));
@@ -60,13 +45,17 @@ export default function DashBoard() {
     let serchedItem = [];
     let beerList = state.beerList;
     for (let i in beerList) {
-      if (beerList[i]["name"].toUpperCase().includes(searchedQuery)) {
+      if (beerList[i]["name"].toUpperCase().includes(searchedQuery.trim())) {
         serchedItem.push(beerList[i]);
       }
     }
     setState({
       ...state,
-      ...{ query: searchedQuery, filterData: serchedItem },
+      ...{
+        query: e.target.value,
+        filterData: serchedItem,
+        withoutFilterFlag: e.target.value ? false : true,
+      },
     });
   };
 
@@ -124,13 +113,50 @@ export default function DashBoard() {
     }
     document.getElementById("ingredientName").value = "";
     document.getElementById("ingredientValue").value = "";
-    if (data.length == 0) alert("No Data Found");
-    else setState({ ...state, ...{ filterData: data } });
+    setState({ ...state, ...{ filterData: data,withoutFilterFlag:true } });
   };
   const setFoodFilterList = (list) => {
-      console.log(list);
-    setState({ ...state, ...{ foodFilterList: list } });
+    let data = [];
+    let traversalData =
+      state.filterData.length > 0 ? state.filterData : state.beerList;
+
+    if (list && list.length > 0) {
+        for (let j in traversalData) {
+            let food_pairing = traversalData[j].food_pairing;
+            let flag = 0;
+            for(let k in food_pairing){
+                for (let i in list) {
+                    if(food_pairing[k].toUpperCase().includes(list[i].toUpperCase().trim())) {
+                        flag=1;   
+                        continue;
+                    }
+                }
+                if(flag==1)
+                    break;
+            }
+            if(flag===1) {
+                data.push(traversalData[j])
+            }
+        }
+      }
+    setState({
+      ...state,
+      ...{
+        filterData: data,
+        withoutFilterFlag: state.foodFilterList.length > 0 ? false : true,
+        foodFilterList:list
+      },
+    });
   };
+  const clearAllFilter = () => {
+    setState({
+        ...state,
+        ...{
+          withoutFilterFlag: true,
+          foodFilterList:[]
+        },
+      });
+  }
   return (
     <div className="container">
       <FilterComponent
@@ -139,8 +165,15 @@ export default function DashBoard() {
         handleIngredientFilter={handleIngredientFilter}
       />
       <div className="row margin-bottom">
-        <div className="col col-sm-3">
+        <div className="col col-sm-2">
           <button onClick={handleClick}>SortBy LikeCount</button>
+        </div>
+        <div className="col col-sm-1">
+          <button
+            onClick={(e) => clearAllFilter()}
+          >
+            Clear
+          </button>
         </div>
         <div className="col col-sm-6">
           <input
@@ -151,7 +184,7 @@ export default function DashBoard() {
             placeholder="Enter Beer Name"
           />
         </div>
-        <div className="col col-sm-3">
+        <div className="col col-sm-2">
           <button
             onClick={(e) => {
               if (state.changeView === "listView")
@@ -163,9 +196,7 @@ export default function DashBoard() {
           </button>
         </div>
       </div>
-      {state.query || state.filterData.length > 0 ? (
-        <ListComponent listItems={state.filterData} hideSocialSection={true} />
-      ) : (
+      {state.withoutFilterFlag && (
         <ListComponent
           listItems={state.currentPageItems}
           hideSocialSection={true}
@@ -174,7 +205,16 @@ export default function DashBoard() {
           view={state.changeView}
         />
       )}
-      {state.numOfPages && <div className="page-index">{pageIndex()}</div>}
+      {
+      !state.withoutFilterFlag && (state.query ||
+      state.filterData.length > 0) ? (
+        <ListComponent listItems={state.filterData} hideSocialSection={true} />
+      ) : (
+        <span>No results found....</span>
+      )}
+      {state.numOfPages && state.withoutFilterFlag && (
+        <div className="page-index">{pageIndex()}</div>
+      )}
     </div>
   );
 }
