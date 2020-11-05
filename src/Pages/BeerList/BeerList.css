@@ -9,3 +9,9 @@
 .sticky-dashboard a {
     color: orange;
 }
+.timer {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    font-size: 15px;
+}

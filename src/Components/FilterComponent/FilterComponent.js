@@ -26,26 +26,29 @@ export default function FilterComponent({
   return (
     <div className="row filter">
       <div className="col col-sm-7 filter-by-ingredient">
-        Filter By Ingredients:
+        <span>Filter By Ingredient:-</span>
         <input
           type="text"
           id="ingredientName"
-          className="form-control filter-by-ingredient"
-          placeholder="Enter Ingredients name"
+          className="form-control"
+          placeholder="Ingredient name"
         />
         <input
           type="number"
           id="ingredientValue"
-          className="form-control filter-by-ingredient"
+          className="form-control"
           min="0"
           max="50"
           step="0.1"
-          placeholder="Ranges from 0 to selected value"
+          placeholder="Amount"
         />
-        <button onClick={(e) => handleIngredientFilter(e)}>Submit</button>
+        <div className="submit-btn">  
+          <input type="button" value="Submit" onClick= {(e) => handleIngredientFilter(e)}/>  
+        </div> 
+        {/* <button onClick={(e) => handleIngredientFilter(e)}>Submit</button> */}
       </div>
-      <div className="col col-sm-5 food-filters">
-        Filter By Foods:-
+      <div className="col col-sm-4 food-filters">
+        <span>Filter By Foods:- </span>
         {foodFilterList.map((item, index) => (
           <span key={index}>
             {item}

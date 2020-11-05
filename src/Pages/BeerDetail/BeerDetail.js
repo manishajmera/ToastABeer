@@ -82,9 +82,12 @@ function BeerDetail({ beerData, dispatchGetBeerDetails }) {
           </tbody>
         </table>
       </div>
+      <div className="col col-sm-12">
+      <h5>Brewer Tips:- </h5>
+      <p>{beerData.brewers_tips}</p>
+      </div>
+      <BeerIngredients ingredients={beerData.ingredients} showFullIngredients={true}/>
       <ComplementFood complementFood={beerData.food_pairing} />
-      <h4>Ingredients:-</h4> 
-      <BeerIngredients ingredients={beerData.ingredients} />
     </div>
   ) : null;
 }

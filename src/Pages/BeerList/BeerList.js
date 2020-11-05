@@ -26,8 +26,7 @@ function BeerList({dispatchGetRandomBeer,beerList}) {
             <Link to='/dashboard'>Dashboard >></Link>
         </div>
         <ListComponent listItems={beerList}/>
-        <div id="timer">Fetching some freshly brewed beer
-            ------------->
+        <div id="timer" className="timer">Fetching some freshly brewed beer on every 5 seconds--->
         </div>
         </>
     )

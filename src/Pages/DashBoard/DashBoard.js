@@ -88,7 +88,7 @@ export default function DashBoard() {
           className={state.paginationIndex === i + 1 ? "active" : ""}
           onClick={(e) => fetchPageData(e, i + 1)}
         >
-          {i + 1}
+          {`${i + 1}  `}
         </span>
       );
     return h;
@@ -100,11 +100,11 @@ export default function DashBoard() {
     let traversalData =
       state.filterData.length > 0 ? state.filterData : state.beerList;
     for (let i in traversalData) {
-      let dataCheck = traversalData[i].ingredients.malt;
+      let dataCheck = traversalData[i].ingredients.hops;
       for (let j in dataCheck) {
         if (
           dataCheck[j].name.toUpperCase() === name.toUpperCase().trim() &&
-          dataCheck[j].amount.value < value
+          dataCheck[j].amount.value <= value
         ) {
           data.push(traversalData[i]);
           break;
@@ -113,7 +113,7 @@ export default function DashBoard() {
     }
     document.getElementById("ingredientName").value = "";
     document.getElementById("ingredientValue").value = "";
-    setState({ ...state, ...{ filterData: data,withoutFilterFlag:true } });
+    setState({ ...state, ...{ filterData: data,withoutFilterFlag:false } });
   };
   const setFoodFilterList = (list) => {
     let data = [];
@@ -209,7 +209,7 @@ export default function DashBoard() {
       state.filterData.length > 0) ? (
         <ListComponent listItems={state.filterData} hideSocialSection={true} />
       ) : (
-        <span>No results found....</span>
+        !state.withoutFilterFlag ? <span>No results found....</span> : null
       )}
       {state.numOfPages && state.withoutFilterFlag && (
         <div className="page-index">{pageIndex()}</div>
