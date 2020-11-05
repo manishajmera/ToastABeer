@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./BeerCard.css";
 import ComplementFood from "../ComplementFoodList/ComplementFood";
 import CommentBox from "../CommentBox/CommentBox";
+import BeerIngredients from "../BeerIngredients/BeerIngredients";
 
 export default function BeerCard(props) {
     const [state,setState] = useState({
@@ -77,10 +78,13 @@ export default function BeerCard(props) {
             </div>
             <CommentBox comment={state.comment} commentText={state.commentText} setCommentText={setCommentText} handleOnKeyPress={handleOnKeyPress}/>
             </> :
-               <div className="col col-sm-12">
-                Like Count:- {props.likeCount}
-               </div>
-}
+              <>
+                <div className="col col-sm-12">
+                  Like Count:- {props.likeCount}
+                </div>
+                <BeerIngredients ingredients={props.ingredients}/>
+              </>
+        }
           </div>
         </div>
         </>

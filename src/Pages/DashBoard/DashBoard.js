@@ -128,11 +128,10 @@ export default function DashBoard() {
                 for (let i in list) {
                     if(food_pairing[k].toUpperCase().includes(list[i].toUpperCase().trim())) {
                         flag=1;   
-                        continue;
+                        break;
                     }
                 }
-                if(flag==1)
-                    break;
+                if(flag===1) break;
             }
             if(flag===1) {
                 data.push(traversalData[j])

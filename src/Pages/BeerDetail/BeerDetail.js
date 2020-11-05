@@ -10,7 +10,6 @@ function BeerDetail({ beerData, dispatchGetBeerDetails }) {
   useEffect(() => {
     dispatchGetBeerDetails(id);
   }, [dispatchGetBeerDetails,id]);
-  console.log(beerData);
   return beerData ? (
     <div className="container">
       <div className="col col-sm-12 align margin-bottom">
@@ -31,7 +30,7 @@ function BeerDetail({ beerData, dispatchGetBeerDetails }) {
         <p>{beerData.description}</p>
       </div>
       <div className="col col-sm-12">
-        <table class="table">
+        <table className="table">
           <thead>
             <tr>
               <th scope="col">#</th>
