@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { dispatchGetBeerDetails } from "../../Redux/Actions/Actions";
 import { useParams } from "react-router-dom";
 import "./BeerDetail.css";
-import { ComplementFood } from "../../Components";
+import { ComplementFood,BeerIngredients } from "../../Components";
 
 function BeerDetail({ beerData, dispatchGetBeerDetails }) {
   let { id } = useParams();
@@ -83,6 +83,8 @@ function BeerDetail({ beerData, dispatchGetBeerDetails }) {
         </table>
       </div>
       <ComplementFood complementFood={beerData.food_pairing} />
+      <h4>Ingredients:-</h4> 
+      <BeerIngredients ingredients={beerData.ingredients} />
     </div>
   ) : null;
 }
