@@ -31,7 +31,7 @@ export default function FilterComponent({
           type="text"
           id="ingredientName"
           className="form-control filter-by-ingredient"
-          placeholder="Enter ingrident name"
+          placeholder="Enter Ingredients name"
         />
         <input
           type="number"
