@@ -4,3 +4,14 @@
 .filter-by-ingredient {
     margin-bottom: 20px;
 }
+.close {
+    position: absolute;
+    margin-top: -4px;
+    float: none;
+    margin-right: 2px;
+  }
+
+.food-filters span{
+    margin-right: 20px;
+    font-size: 12px;
+}

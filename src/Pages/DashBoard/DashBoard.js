@@ -4,21 +4,32 @@ import "./DashBoard.css";
 
 export default function DashBoard() {
     const [beerList,setBeerList] = useState(null);
-    const [filterList, setFilterList] = useState([]);
     const [filterData, setfilterData] = useState([]);
     const [query, setQuery] = useState("");
     const [paginationIndex,setPaginationIndex] = useState(1);
     const [numOfPages,setNumOfPages] = useState(1);
     const [currentPageItems,setCurrentPageItems] = useState([]);
     const [changeView,setChangeView] = useState("listView");
+    const [foodFilterList,setFoodFilterList] = useState([]);
 
 
 
     useEffect(()=>{
-        if(filterList && filterList.length>0){
-            
+        let data = [];
+        let traversalData = filterData && filterData.length>0 ?filterData :beerList;
+        if(foodFilterList && foodFilterList.length>0){
+            for(let i in foodFilterList){
+                for(let j in traversalData){
+                    if(traversalData[j].food_pairing.includes(foodFilterList[i])){
+                        data.push(traversalData[j])
+                    }
+                }
+            }   
         }
-    },[filterList]);
+        if(data.length==0) {
+            alert("No Matching showing all data Data Found")
+        }else  setfilterData([...data])
+    },[foodFilterList]);
 
     useEffect(()=>{
         let likedList = JSON.parse(localStorage.getItem("beerLikeList"));
@@ -69,15 +80,33 @@ export default function DashBoard() {
     }
     const pageIndex = () => {
         let h = [];
-        console.log(paginationIndex);
         for(let i=0;i<numOfPages;i++) h.push(
             <span key={i} className={paginationIndex===i+1 ? "active" : ""} onClick={(e) =>  fetchPageData(e,i+1)}>{i+1}</span>
         )
         return h;
     }
+    const handleIngredientFilter = () => {
+        let name=document.getElementById("ingredientName").value;
+        let value=document.getElementById("ingredientValue").value;
+        let data = [];
+        let traversalData = filterData && filterData.length>0 ?filterData :beerList;
+                for(let i in traversalData){
+                    let dataCheck = traversalData[i].ingredients.malt;
+                    for(let j in dataCheck){                     
+                            if(dataCheck[j].name.toUpperCase()===name.toUpperCase().trim() && dataCheck[j].amount.value<value){
+                                data.push(traversalData[i]);
+                                break;
+                            }
+                        }
+                    }
+                    document.getElementById("ingredientName").value="";
+                    document.getElementById("ingredientValue").value="";
+                    if(data.length==0) alert("No Data Found");
+                    else  setfilterData([...data])
+    }
     return (
         <div className="container">
-                <FilterComponent filterList={filterList} setFilterList={setFilterList} />
+                <FilterComponent foodFilterList={foodFilterList} setFoodFilterList={setFoodFilterList} handleIngredientFilter={handleIngredientFilter}/>
                 <div className="row margin-bottom">
                 <div className="col col-sm-3"><button onClick={handleClick}>SortBy LikeCount</button></div>
                 <div className="col col-sm-6"><input type="text" className="form-control" onChange={handleChange} value={query} placeholder="Enter Beer Name"/></div>
@@ -85,8 +114,8 @@ export default function DashBoard() {
                     if(changeView==="listView") setChangeView("gridView"); else setChangeView("listView"); 
                 }}>Change View</button></div>
             </div>
-            {query ? <ListComponent listItems={filterData} hideSocialSection={true}/> : 
-                            <ListComponent listItems={filterData.length>0 ? filterData : currentPageItems} hideSocialSection={true} numOfPages={numOfPages} fetchPageData={fetchPageData} view={changeView}/>
+            {query || filterData.length>0 ? <ListComponent listItems={filterData} hideSocialSection={true}/> : 
+                            <ListComponent listItems={currentPageItems} hideSocialSection={true} numOfPages={numOfPages} fetchPageData={fetchPageData} view={changeView}/>
             }
                         {numOfPages && <div className="page-index">{pageIndex()}</div>}
                         

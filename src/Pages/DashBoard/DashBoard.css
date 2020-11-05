@@ -10,5 +10,8 @@
     margin-right: 10px;
     margin-left: 10px;
     background: orange;
+}
+.page-index span{
     cursor: pointer;
+
 }
