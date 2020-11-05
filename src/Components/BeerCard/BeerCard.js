@@ -72,7 +72,7 @@ export default function BeerCard(props) {
         <div className="container">
         <ComplementFood complementFood={props.food_pairing}/>
         {!props.hideSocialSection ? <>
-          <div className="col col-sm-12">
+          <div className="col col-sm-12 like-btn">
             <i className="fa fa-thumbs-up" aria-hidden="true" onClick={(e) => handleClick(e, props.id)}></i> {state.likeCount}
             </div>
             <CommentBox comment={state.comment} commentText={state.commentText} setCommentText={setCommentText} handleOnKeyPress={handleOnKeyPress}/>

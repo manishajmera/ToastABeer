@@ -17,3 +17,6 @@
  .top-content {
      margin-bottom: 15px;
  }
+ .like-btn {
+     cursor: pointer;
+ }
